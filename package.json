@@ -2,9 +2,15 @@
   "name": "unixtime.js",
   "version": "1.0.0",
   "description": "Super small lib for handeling time in js based on unix timestamps.",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wirdehall/unixtime.js.git"
   },
   "keywords": [
     "time",
@@ -12,5 +18,15 @@
     "unixtime"
   ],
   "author": "Daniel Wirdehäll",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wirdehall/unixtime.js/issues"
+  },
+  "homepage": {
+    "url": "https://github.com/wirdehall/unixtime.js#readme"
+  },
+  "devDependencies": {
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.3"
+  }
 }

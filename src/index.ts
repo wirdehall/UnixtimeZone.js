@@ -9,28 +9,6 @@ const HOUR = 3600;
 export const toTimezone = (unixtime: number, timezoneOffset: number) => unixtime + timezoneOffset * HOUR;
 export const fromTimezone = (timestamp: number, timezoneOffset: number) => timestamp + -timezoneOffset * HOUR;
 
-export const formatTimestamp = (unixTimestamp: number, format?: string) => {
-  const timezoneConvertedTimestamp = toTimezone(unixTimestamp, window.unixtime_js_prefix_impossible_collision_timezone_offset);
-  const date = new Date(timezoneConvertedTimestamp * 1000);
-  if (typeof format === 'undefined') {
-    const iso = date.toISOString().match(/(\d{4})\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
-    return iso[1] + ' ' + iso[2];
-  } else {
-    return strftime(date, format);
-  }
-};
-
-export const toUnixtime = (datetime: string) => {
-  const timestamp = Math.floor(new Date(datetime).getTime() / 1000);
-  const unixtime = toTimezone(timestamp, window.unixtime_js_prefix_impossible_collision_timezone_offset);
-  return unixtime;
-};
-
-export const setTimezoneOffset = (timezoneOffset: number) => {
-  (window as any).unixtime_js_prefix_impossible_collision_timezone_offset = timezoneOffset;
-};
-
-
 const strftime = (date: Date, sFormat: string) => {
   const nDay = date.getDay();
   const nDate = date.getDate();
@@ -52,7 +30,7 @@ const strftime = (date: Date, sFormat: string) => {
     return ('' + (Math.pow(10, nPad) + nNum)).slice(1);
   };
   return sFormat.replace(/%[a-z]/gi, (sMatch: string) => {
-    return {
+    return ({
       '%a': aDays[nDay].slice(0, 3),
       '%A': aDays[nDay],
       '%b': aMonths[nMonth].slice(0, 3),
@@ -77,6 +55,31 @@ const strftime = (date: Date, sFormat: string) => {
       '%w': '' + nDay,
       '%y': ('' + nYear).slice(2),
       '%Y': nYear,
-    }[sMatch] || sMatch;
+    } as { [key: string]: any })[sMatch] || sMatch;
   });
+};
+
+export const formatTimestamp = (unixTimestamp: number, format?: string): string => {
+  const timezoneConvertedTimestamp = toTimezone(unixTimestamp, window.unixtime_js_prefix_impossible_collision_timezone_offset);
+  const date = new Date(timezoneConvertedTimestamp * 1000);
+  if (typeof format === 'undefined') {
+    const iso = date.toISOString().match(/(\d{4})\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+    if (iso !== null) {
+      return iso[1] + ' ' + iso[2];
+    } else {
+      return date.toISOString();
+    }
+  } else {
+    return strftime(date, format);
+  }
+};
+
+export const toUnixtime = (datetime: string) => {
+  const timestamp = Math.floor(new Date(datetime).getTime() / 1000);
+  const unixtime = toTimezone(timestamp, window.unixtime_js_prefix_impossible_collision_timezone_offset);
+  return unixtime;
+};
+
+export const setTimezoneOffset = (timezoneOffset: number) => {
+  (window as any).unixtime_js_prefix_impossible_collision_timezone_offset = timezoneOffset;
 };
