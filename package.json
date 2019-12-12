@@ -2,7 +2,8 @@
   "name": "unixtime.js",
   "version": "1.0.0",
   "description": "Super small lib for handeling time in js based on unix timestamps.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
