@@ -1,6 +1,6 @@
-# Unixtime.js
+# UnixtimeZone.js
 
-Small js lib with a few functions to handel date and time with timezones with unix timestamps as a base.
+Small js lib with a few functions to handel date and time with timezones using unixtimestamps as a base.
 
 ## Base concept
 

@@ -1,8 +1,16 @@
 declare global {
-  interface Window { unixtime_js_prefix_impossible_collision_timezone_offset: number; }
+  interface Window {
+    unixtimezoneJsPrefixImpossibleCollision: {
+      timezoneOffset: number;
+      useUnixtimeInMilliseconds: boolean;
+    };
+  }
 }
 
-window.unixtime_js_prefix_impossible_collision_timezone_offset = window.unixtime_js_prefix_impossible_collision_timezone_offset || 0;
+window.unixtimezoneJsPrefixImpossibleCollision = window.unixtimezoneJsPrefixImpossibleCollision || {
+  timezoneOffset: 0,
+  useUnixtimeInMilliseconds: false,
+};
 
 const HOUR = 3600;
 
@@ -36,32 +44,34 @@ const strftime = (date: Date, sFormat: string) => {
       '%b': aMonths[nMonth].slice(0, 3),
       '%B': aMonths[nMonth],
       '%c': date.toUTCString(),
-      '%C': Math.floor(nYear / 100),
+      '%C': '' + Math.floor(nYear / 100),
       '%d': zeroPad(nDate, 2),
-      '%e': nDate,
+      '%e': '' + nDate,
       '%F': date.toISOString().slice(0, 10),
       '%H': zeroPad(nHour, 2),
       '%I': zeroPad((nHour + 11) % 12 + 1, 2),
       '%j': zeroPad(aDayCount[nMonth] + nDate + ((nMonth > 1 && isLeapYear()) ? 1 : 0), 3),
       '%k': '' + nHour,
-      '%l': (nHour + 11) % 12 + 1,
+      '%l': '' + (nHour + 11) % 12 + 1,
       '%m': zeroPad(nMonth + 1, 2),
       '%M': zeroPad(date.getMinutes(), 2),
       '%p': (nHour < 12) ? 'AM' : 'PM',
       '%P': (nHour < 12) ? 'am' : 'pm',
-      '%s': Math.round(date.getTime() / 1000),
+      '%s': '' + Math.round(date.getTime() / 1000),
       '%S': zeroPad(date.getSeconds(), 2),
-      '%u': nDay || 7,
+      '%u': '' + nDay || 7,
       '%w': '' + nDay,
       '%y': ('' + nYear).slice(2),
-      '%Y': nYear,
-    } as { [key: string]: any })[sMatch] || sMatch;
+      '%Y': '' + nYear,
+    } as { [key: string]: string })[sMatch] || sMatch;
   });
 };
 
 export const formatTimestamp = (unixTimestamp: number, format?: string): string => {
-  const timezoneConvertedTimestamp = toTimezone(unixTimestamp, window.unixtime_js_prefix_impossible_collision_timezone_offset);
-  const date = new Date(timezoneConvertedTimestamp * 1000);
+  const timezoneConvertedTimestamp = toTimezone(unixTimestamp, window.unixtimezoneJsPrefixImpossibleCollision.timezoneOffset);
+  const date = window.unixtimezoneJsPrefixImpossibleCollision.useUnixtimeInMilliseconds
+    ? new Date(timezoneConvertedTimestamp)
+    : new Date(timezoneConvertedTimestamp * 1000);
   if (typeof format === 'undefined') {
     const iso = date.toISOString().match(/(\d{4})\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
     if (iso !== null) {
@@ -75,11 +85,17 @@ export const formatTimestamp = (unixTimestamp: number, format?: string): string 
 };
 
 export const toUnixtime = (datetime: string) => {
-  const timestamp = Math.floor(new Date(datetime).getTime() / 1000);
-  const unixtime = toTimezone(timestamp, window.unixtime_js_prefix_impossible_collision_timezone_offset);
+  const timestamp = window.unixtimezoneJsPrefixImpossibleCollision.useUnixtimeInMilliseconds
+    ? new Date(datetime).getTime()
+    : Math.floor(new Date(datetime).getTime() / 1000);
+  const unixtime = toTimezone(timestamp, window.unixtimezoneJsPrefixImpossibleCollision.timezoneOffset);
   return unixtime;
 };
 
 export const setTimezoneOffset = (timezoneOffset: number) => {
-  (window as any).unixtime_js_prefix_impossible_collision_timezone_offset = timezoneOffset;
+  window.unixtimezoneJsPrefixImpossibleCollision.timezoneOffset = timezoneOffset;
+};
+
+export const setUseUnixtimeInMilliseconds = (value: boolean) => {
+  window.unixtimezoneJsPrefixImpossibleCollision.useUnixtimeInMilliseconds = value;
 };

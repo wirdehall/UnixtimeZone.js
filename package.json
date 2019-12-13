@@ -1,5 +1,5 @@
 {
-  "name": "unixtime.js",
+  "name": "UnixtimeZone.js",
   "version": "1.0.0",
   "description": "Super small lib for handeling time in js based on unix timestamps.",
   "main": "lib/index.js",
