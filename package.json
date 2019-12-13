@@ -1,5 +1,5 @@
 {
-  "name": "UnixtimeZone.js",
+  "name": "unixtimezone.js",
   "version": "1.0.0",
   "description": "Super small lib for handeling time in js based on unix timestamps.",
   "main": "lib/index.js",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wirdehall/UnixtimeZone.js.git"
+    "url": "git+https://github.com/wirdehall/unixtimezone.js.git"
   },
   "keywords": [
     "time",
@@ -21,10 +21,10 @@
   "author": "Daniel Wirdehäll",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wirdehall/UnixtimeZone.js/issues"
+    "url": "https://github.com/wirdehall/unixtimezone.js/issues"
   },
   "homepage": {
-    "url": "https://github.com/wirdehall/UnixtimeZone.js#readme"
+    "url": "https://github.com/wirdehall/unixtimezone.js#readme"
   },
   "devDependencies": {
     "tslint": "^5.20.1",

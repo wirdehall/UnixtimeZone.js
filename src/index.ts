@@ -14,8 +14,15 @@ window.unixtimezoneJsPrefixImpossibleCollision = window.unixtimezoneJsPrefixImpo
 
 const HOUR = 3600;
 
-export const toTimezone = (unixtime: number, timezoneOffset: number) => unixtime + timezoneOffset * HOUR;
-export const fromTimezone = (timestamp: number, timezoneOffset: number) => timestamp + -timezoneOffset * HOUR;
+export const toTimezone = (unixtime: number, timezoneOffset: number) =>
+  window.unixtimezoneJsPrefixImpossibleCollision.useUnixtimeInMilliseconds
+   ? unixtime + timezoneOffset * HOUR
+   : unixtime + timezoneOffset * (HOUR * 1000);
+
+export const fromTimezone = (timestamp: number, timezoneOffset: number) =>
+  window.unixtimezoneJsPrefixImpossibleCollision.useUnixtimeInMilliseconds
+  ? timestamp + -timezoneOffset * HOUR
+  : timestamp + -timezoneOffset * (HOUR * 1000);
 
 const strftime = (date: Date, sFormat: string) => {
   const nDay = date.getDay();
@@ -73,7 +80,7 @@ export const formatTimestamp = (unixTimestamp: number, format?: string): string 
     ? new Date(timezoneConvertedTimestamp)
     : new Date(timezoneConvertedTimestamp * 1000);
   if (typeof format === 'undefined') {
-    const iso = date.toISOString().match(/(\d{4})\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+    const iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
     if (iso !== null) {
       return iso[1] + ' ' + iso[2];
     } else {
