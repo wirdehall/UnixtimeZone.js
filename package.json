@@ -1,6 +1,6 @@
 {
   "name": "unixtimezone.js",
-  "version": "1.1.0",
+  "version": "1.1.4",
   "description": "Super small lib for handeling time in js based on unix timestamps.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
